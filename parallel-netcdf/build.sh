@@ -1,33 +1,35 @@
 #!/bin/bash
 
-export CFLAGS="-I$PREFIX/include $CFLAGS"
+export CFLAGS="-I$PREFIX/include $CFLAGS -target-cpu=sandybridge"
 export LDFLAGS="-L$PREFIX/lib $LDFLAGS"
 
-## edison specific flags
-##{{{
-#mkdir -p /var/tmp/${USER}-env
-#chmod 700 /var/tmp/${USER}-env
-#export _MODULESBEGINENV_=/var/tmp/${USER}-env/.modulesbeginenv
-#. /opt/modules/default/init/bash
-#module add modules/3.2.10.4
-#
-#export CRAY_CPU_TARGET=sandybridge
-#export MAN_POSIXLY_CORRECT=1
-#export LIBGL_ALWAYS_INDIRECT=1
-#export MPICH_MPIIO_DVS_MAXNODES=14
-#export DVS_MAXNODES=1__
-#export MPICH_GNI_ROUTING_MODE=ADAPTIVE_1
-##ZZ 1/15/2016 to disable the --craype-buildtools-check in craype/2.5.0
-#export CRAYPE_USE_BUILDTOOLS=0
-#module load darshan
-#
-#
-#export FORT_BUFFERED=yes
-#if [ -z "$INTEL_LICENSE_FILE" ]; then
-#  export INTEL_LICENSE_FILE=28518@dmv1.nersc.gov:28518@dmv.nersc.gov
-#fi
-##}}}
-#module load usg-default-modules
+## edison hack
+#{{{
+set +e
+. ~/.bashrc
+. ~/.bash_profile
+set -e
+
+# get list of modules
+# grep "\- /" modfiles | awk '{print $2}' > ~/.default_edison_module
+tail ~/.default_edison_module | xargs -I{} echo 'module use' {} > modulesource.sh
+. modulesource.sh
+
+
+module avail &> modfiles
+grep "\- /" modfiles
+# build env modules: 'module -l list &> ~/.default_edison_list'
+tail  ~/.default_edison_list -n +3 | awk '{print $1}' | xargs -I {} echo 'module load' {} > loadmodules.sh
+. loadmodules.sh
+module load darshan
+
+#http://www.nersc.gov/users/computational-systems/edison/updates-and-status/open-issues/compiling-serial-codes-to-run-on-login-nodes-in-the-intel-programming-environment/
+# note that this is a non-optimal hack
+module unload craype-ivybridge
+export CRAY_CPU_TARGET=sandybridge
+
+module list
+#}}}
 
 #CONFIG_SHELL=/bin/bash bash configure \
 ./configure \
