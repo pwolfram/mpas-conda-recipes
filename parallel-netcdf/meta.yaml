@@ -1,0 +1,24 @@
+package:
+  name: parallel-netcdf
+  version: 1.4.1
+
+source:
+  fn: parallel-netcdf-1.4.1.tar.bz2
+  url: http://cucis.ece.northwestern.edu/projects/PnetCDF/Release/parallel-netcdf-1.4.1.tar.bz2
+  sha1: 0839b9789266f8c2be3656d7287f0776b797626f
+
+build:
+  number: 1
+
+requirements:
+  build:
+    - netcdf-base
+    - netcdf-fortran
+  run:
+    - netcdf-base
+    - netcdf-fortran
+
+test:
+
+about:
+  home: http://www.unidata.ucar.edu/software/netcdf
