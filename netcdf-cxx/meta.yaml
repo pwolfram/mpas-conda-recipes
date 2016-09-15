@@ -1,0 +1,22 @@
+package:
+  name: netcdf-cxx
+  version: 4.2
+
+source:
+  fn: netcdf-cxx-4.2.tar.gz
+  url: http://www.gfd-dennou.org/library/netcdf/unidata-mirror/netcdf-cxx-4.2.tar.gz
+  sha256: 95ed6ab49a0ee001255eac4e44aacb5ca4ea96ba850c08337a3e4c9a0872ccd1
+
+build:
+  number: 1
+
+requirements:
+  build:
+    - netcdf-base
+  run:
+    - netcdf-base
+
+test:
+
+about:
+  home: http://www.unidata.ucar.edu/software/netcdf

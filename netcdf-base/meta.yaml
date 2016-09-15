@@ -1,0 +1,20 @@
+package:
+  name: netcdf-base
+  version: 4.3.3.1
+
+source:
+  fn: netcdf-4.3.3.1.tar.gz
+  url: http://www.gfd-dennou.org/library/netcdf/unidata-mirror/netcdf-4.3.3.1.tar.gz
+  sha256: bdde3d8b0e48eed2948ead65f82c5cfb7590313bc32c4cf6c6546e4cea47ba19
+
+build:
+  number: 1
+
+requirements:
+  build:
+  run:
+
+test:
+
+about:
+  home: http://www.unidata.ucar.edu/software/netcdf
