@@ -31,15 +31,19 @@ export CRAY_CPU_TARGET=sandybridge
 module list
 #}}}
 
+cd pio
+
+export NETCDF_PATH=`nc-config --prefix`
+echo $NETCDF_PATH
 #CONFIG_SHELL=/bin/bash bash configure \
 ./configure \
     --disable-debug \
-    --disable-dependency-tracking \
-    --disable-silent-rules \
     --prefix=$PREFIX
 make
-# test to make sure build is good
-make check testing
+# make check testing
 make install
+
+cd ../testpio
+make
 
 rm -rf $PREFIX/share

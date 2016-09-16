@@ -1,16 +1,18 @@
 # Automate rebuilding lots of things
 
+all: netcdf env parallelnetcdf pio
+
 netcdf:
 	cd netcdf-base && conda-build .
 	cd netcdf-fortran && conda-build .
 	cd netcdf-cxx && conda-build .
 
-package-mpfr:
-	cd mpfr && conda-build .
+env:
+	grep "\- /" modfiles | awk '{print $2}' > ~/.default_edison_module
+	module -l list &> ~/.default_edison_list
 
-package-cgal: 
-	cd cgal && conda-build .
+parallelnetcdf: netcdf env
+	cd parallel-netcdf && conda-build .
 
-
-package-python-cgal-bindings: 
-	cd python-cgal-bindings && conda-build .
+pio: env netcdf parallelnetcdf
+	cd pio && conda-build .
